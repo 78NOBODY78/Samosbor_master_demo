@@ -1,16 +1,17 @@
 #include "gamemodewindow.h"
 #include "ui_gamemodewindow.h"
-#include "mainwindow.h"  // Подключаем главное окно
-#include "playermodewindow.h"  // Подключаем окно режима игрока
+#include "mainwindow.h"
+#include "playermodewindow.h"
+#include "mastercontrolwindow.h"
 
 GameModeWindow::GameModeWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::GameModeWindow)
-    , playerModeWindow(nullptr)  // Инициализируем указатель
+    , playerModeWindow(nullptr)
+    , masterWindow(nullptr)
 {
     ui->setupUi(this);
 
-    // Подключаем кнопки к обработчикам
     connect(ui->pushButtonPlayer, &QPushButton::clicked, this, &GameModeWindow::onPlayerModeClicked);
     connect(ui->pushButtonMaster, &QPushButton::clicked, this, &GameModeWindow::onMasterModeClicked);
     connect(ui->pushButtBack, &QPushButton::clicked, this, &GameModeWindow::onBackClicked);
@@ -18,30 +19,35 @@ GameModeWindow::GameModeWindow(QWidget *parent)
 
 GameModeWindow::~GameModeWindow()
 {
+    delete playerModeWindow;
+    delete masterWindow;
     delete ui;
 }
 
-// Обработчик кнопки "Игрок" — открывает окно режима игрока
 void GameModeWindow::onPlayerModeClicked()
 {
     if (!playerModeWindow) {
-        playerModeWindow = new PlayerModeWindow(nullptr);  // Создаем, если ещё нет
+        playerModeWindow = new PlayerModeWindow(nullptr); // указываем родителя
     }
     playerModeWindow->show();
-    this->hide();  // Скрываем текущее окно
+    this->hide();
 }
 
-// Обработчик кнопки "Мастер" — (реализация ожидается)
 void GameModeWindow::onMasterModeClicked()
 {
-    // TODO: Добавить переход в режим мастера
+    if (!masterWindow) {
+        masterWindow = new MasterControlWindow(nullptr);  // ← БЕЗ this
+    }
+    masterWindow->show();
+    this->hide();
 }
 
-// Обработчик кнопки "Назад" — возвращает в главное окно
+
+
 void GameModeWindow::onBackClicked()
 {
     if (parentWidget()) {
-        parentWidget()->show();  // Показываем главное окно
+        parentWidget()->show();
     }
-    this->close();  // Закрываем окно выбора режима
+    this->close();
 }

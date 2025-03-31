@@ -35,6 +35,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         character_skills.h character_skills.cpp
         selectcharacterwindow.h selectcharacterwindow.cpp
         selectcharacterwindow.ui
+        mastercontrolwindow.h mastercontrolwindow.cpp
+        mastercontrolwindow.ui
+        samosborcontroller.h samosborcontroller.cpp
+        terminalprinter.h terminalprinter.cpp
+        eventgenerator.h eventgenerator.cpp
+
+
     )
 else()
     if(ANDROID)
